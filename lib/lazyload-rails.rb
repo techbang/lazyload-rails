@@ -2,34 +2,7 @@ require "nokogiri"
 require "action_view"
 
 require "lazyload-rails/version"
-require "lazyload-rails/configuration"
-
-module Lazyload
-  module Rails
-
-    def self.configuration
-      @configuration ||= Lazyload::Rails::Configuration.new
-    end
-
-    def self.configuration=(new_configuration)
-      @configuration = new_configuration
-    end
-
-    # Yields the global configuration to a block.
-    #
-    # Example:
-    #   Lazyload::Rails.configure do |config|
-    #     config.placeholder = '/public/images/foo.gif'
-    #   end
-    def self.configure
-      yield configuration if block_given?
-    end
-
-    def self.reset
-      @configuration = nil
-    end
-  end
-end
+require 'lazyload-rails/engine' if defined?(Rails::Engine)
 
 ActionView::Helpers::AssetTagHelper.module_eval do
   alias :rails_image_tag :image_tag
@@ -51,7 +24,7 @@ ActionView::Helpers::AssetTagHelper.module_eval do
     img = Nokogiri::HTML::DocumentFragment.parse(image_html).at_css("img")
 
     img["data-original"] = img["src"]
-    img["src"] = Lazyload::Rails.configuration.placeholder
+    img["src"] = image_path("lazyload/loading.gif")
 
     img.to_s.html_safe
   end
