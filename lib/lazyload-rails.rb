@@ -25,6 +25,7 @@ ActionView::Helpers::AssetTagHelper.module_eval do
 
     img["data-original"] = img["src"]
     img["src"] = image_path("lazyload/loading.gif")
+    img["class"] = img["class"].to_s.split.push(:lazy).join(" ")
 
     img.to_s.html_safe
   end

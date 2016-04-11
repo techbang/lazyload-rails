@@ -32,14 +32,14 @@ Equals:
 
 Add this line to your application's Gemfile:
 
-    gem "lazyload-rails"
+    gem "lazyload-rails", github: "techbang/lazyload-rails"
 
 Download the [jQuery Lazy Load Plugin](https://raw.github.com/tuupola/jquery_lazyload/master/jquery.lazyload.js)
 into your `vendor/assets/javascripts` directory and include it however you prefer.
 
 And in your JavaScript code do:
 
-    $("img").lazyload();
+    $("img.lazy").lazyload();
 
 Lazy Load can be customized, [see more options](http://www.appelsiini.net/projects/lazyload)
 
