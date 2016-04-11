@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.files = Dir["README.md", "MIT-LICENSE", "lib/**/*.rb"]
 
   gem.add_dependency "nokogiri", "~> 1.6"
+  gem.add_dependency "jquery-rails"
   gem.add_development_dependency "actionpack", ">= 3.1"
 
   gem.author = "Javier Saldana"
