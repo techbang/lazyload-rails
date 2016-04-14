@@ -28,6 +28,10 @@ Equals:
 
     <img alt="OMG a cat!" data-original="/images/kittenz.png" src="http://www.appelsiini.net/projects/lazyload/img/grey.gif">
 
+Or, render lazyload html from html content string:
+
+    <%= render_html_with_lazyload(@content) %>
+
 ## Install
 
 Add this line to your application's Gemfile:

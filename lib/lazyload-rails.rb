@@ -12,22 +12,25 @@ ActionView::Helpers::AssetTagHelper.module_eval do
     image_html = rails_image_tag(*args)
 
     if options[:lazy]
-      to_lazy_image(image_html)
+      render_html_with_lazyload(image_html)
     else
       image_html
     end
   end
 
+  def render_html_with_lazyload(html)
+    content_html = Nokogiri::HTML(html).css("body")
+    content_html.css("img").each { |img| to_lazy_image!(img) }
+
+    content_html.inner_html.html_safe
+  end
+
   private
 
-  def to_lazy_image(image_html)
-    img = Nokogiri::HTML::DocumentFragment.parse(image_html).at_css("img")
-
+  def to_lazy_image!(img)
     img["data-original"] = img["src"]
-    img["src"] = image_path("lazyload/loading.gif")
+    img["src"] = loading_image_path
     img["class"] = img["class"].to_s.split.push(:lazy).join(" ")
-
-    img.to_s.html_safe
   end
 
   def extract_options_and_args(*attrs)
@@ -43,4 +46,7 @@ ActionView::Helpers::AssetTagHelper.module_eval do
     [options, args]
   end
 
+  def loading_image_path
+    @loading_image_path ||= image_path("lazyload/loading.gif")
+  end
 end
