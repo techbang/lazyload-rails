@@ -29,7 +29,7 @@ ActionView::Helpers::AssetTagHelper.module_eval do
 
   def to_lazy_image!(img)
     img["data-original"] = img["src"]
-    img["src"] = loading_image_path
+    img.attributes["src"].remove
     img["class"] = img["class"].to_s.split.push(:lazy).join(" ")
   end
 
@@ -44,9 +44,5 @@ ActionView::Helpers::AssetTagHelper.module_eval do
     end
 
     [options, args]
-  end
-
-  def loading_image_path
-    @loading_image_path ||= image_path("lazyload/loading.gif")
   end
 end
