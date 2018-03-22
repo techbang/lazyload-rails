@@ -170,48 +170,60 @@
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
     $.belowthefold = function(element, settings) {
-        var fold;
+        var fold,
+            offset,
+            offset_top;
 
         if (settings.container === undefined || settings.container === window) {
             fold = (window.innerHeight ? window.innerHeight : $window.height()) + $window.scrollTop();
         } else {
-            fold = $(settings.container).offset().top + $(settings.container).height();
+            offset = $(settings.container).offset();
+            offset_top = offset ? offset.top : 0;
+            fold = offset_top + $(settings.container).height();
         }
 
         return fold <= $(element).offset().top - settings.threshold;
     };
 
     $.rightoffold = function(element, settings) {
-        var fold;
+        var fold,
+            offset,
+            offset_left;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.width() + $window.scrollLeft();
         } else {
-            fold = $(settings.container).offset().left + $(settings.container).width();
+            offset = $(settings.container).offset();
+            offset_left = offset ? offset.left : 0;
+            fold = offset_left + $(settings.container).width();
         }
 
         return fold <= $(element).offset().left - settings.threshold;
     };
 
     $.abovethetop = function(element, settings) {
-        var fold;
+        var fold,
+            offset;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollTop();
         } else {
-            fold = $(settings.container).offset().top;
+            offset = $(settings.container).offset();
+            fold = offset ? offset.top : 0;
         }
 
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
     };
 
     $.leftofbegin = function(element, settings) {
-        var fold;
+        var fold,
+            offset;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollLeft();
         } else {
-            fold = $(settings.container).offset().left;
+            offset = $(settings.container).offset();
+            fold = offset ? offset.left : 0;
         }
 
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
