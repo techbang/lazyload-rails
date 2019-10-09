@@ -18,15 +18,35 @@ See [example](http://backbonejs.org/#examples) (scroll down to see images load)
 ### Features
 
 * Add `lazy: true` option to Rails `image_tag` helpers to render lazyload-friendly img tags.
+* Global config available to make them lazy by default.
 * Simple (really). That's pretty much it.
 
 ### Example
 
-    <%= image_tag "kittenz.png", alt: "OMG a cat!", lazy: true %>
+```erb
+<%= image_tag "kittenz.png", lazy: true %>
+```
+
+or
+
+```ruby
+# config/initializers/lazyload.rb
+Lazyload::Rails.configure do |config|
+  config.lazy_by_default = true
+end
+```
+```erb
+<%= image_tag "kittenz.png" %>
+```
 
 Equals:
 
-    <img alt="OMG a cat!" data-original="/images/kittenz.png" src="http://www.appelsiini.net/projects/lazyload/img/grey.gif">
+```html
+<img src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
+     data-original="/images/kittenz.png" />
+```
+
+**PRO TIP!** You must set image dimensions either as width and height attributes or in CSS. Otherwise plugin might not work properly.
 
 Or, render lazyload html from html content string:
 
@@ -34,20 +54,35 @@ Or, render lazyload html from html content string:
 
 ## Install
 
-Add this line to your application's Gemfile:
+1. Add this line to your application's Gemfile:
 
     gem "lazyload-rails", github: "techbang/lazyload-rails"
 
-Download the [jQuery Lazy Load Plugin](https://raw.github.com/tuupola/jquery_lazyload/master/jquery.lazyload.js)
-into your `vendor/assets/javascripts` directory and include it however you prefer.
+2. Download the [jQuery Lazy Load Plugin](https://raw.github.com/tuupola/jquery_lazyload/master/jquery.lazyload.js)
+into your `vendor/assets/javascripts` directory.
 
-And in your JavaScript code do:
+3. Include it however you prefer. For example, in your application.js you could add:
 
     $("img.lazy").lazyload();
 
 Lazy Load can be customized, [see more options](http://www.appelsiini.net/projects/lazyload)
 
 *__Important__: Remember that the Lazy Load Plugin depends on jQuery.*
+
+## Configuration
+
+```ruby
+# config/initializers/lazyload.rb
+Lazyload::Rails.configure do |config|
+  # By default, a 1x1 grey gif is used as placeholder ("data:image/gif;base64,...").
+  # This can be easily customized:
+  config.placeholder = "/public/img/grey.gif"
+
+  # image_tag can return lazyload-friendly images by default,
+  # no need to pass the { lazy: true } option
+  config.lazy_by_default = true
+end
+```
 
 ## License
 

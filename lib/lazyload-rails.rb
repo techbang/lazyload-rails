@@ -1,8 +1,8 @@
 require "nokogiri"
 require "action_view"
-
 require "lazyload-rails/version"
 require 'lazyload-rails/engine' if defined?(Rails::Engine)
+require "lazyload-rails/config"
 
 ActionView::Helpers::AssetTagHelper.module_eval do
   alias :rails_image_tag :image_tag
@@ -25,8 +25,6 @@ ActionView::Helpers::AssetTagHelper.module_eval do
     content_html.inner_html.html_safe
   end
 
-  private
-
   def to_lazy_image!(img)
     img["data-original"] = img["src"]
     img["src"] = loading_image_path
@@ -42,7 +40,6 @@ ActionView::Helpers::AssetTagHelper.module_eval do
     else
       options = {}
     end
-
     [options, args]
   end
 
