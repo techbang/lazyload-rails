@@ -82,7 +82,9 @@
             });
         }
 
+        console.log('this是什麼',this)
         this.each(function() {
+            console.log('gem的this each 是啥', this)
             var self = this;
             var $self = $(self);
 
