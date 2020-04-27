@@ -29,7 +29,7 @@ ActionView::Helpers::AssetTagHelper.module_eval do
 
   def to_lazy_image!(img)
     img["data-original"] = img["src"]
-    img["src"] = loading_image_path
+    img["src"] = loading_image_path unless browser.ie?
     img["class"] = img["class"].to_s.split.push(:lazy).join(" ")
   end
 
